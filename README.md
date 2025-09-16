@@ -1,4 +1,4 @@
-# 🏊‍♂️ Smart Swim Goggles BLE Companion App
+# Sample BLE Scan App
 
 A React Native + Expo app for scanning and connecting to Smart Swim Goggles via Bluetooth Low Energy (BLE). Built for iOS device testing and real-time swim metrics tracking.
 
