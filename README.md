@@ -1,50 +1,233 @@
-# Welcome to your Expo app 👋
+# 🏊‍♂️ Smart Swim Goggles BLE Companion App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native + Expo app for scanning and connecting to Smart Swim Goggles via Bluetooth Low Energy (BLE). Built for iOS device testing and real-time swim metrics tracking.
 
-## Get started
+> ⚠️ **Important**: BLE functionality requires a physical iOS device - it will **not** work in the iOS Simulator or Expo Go.
 
-1. Install dependencies
+## 📦 Prerequisites
 
-   ```bash
-   npm install
-   ```
+Make sure you have the following installed:
 
-2. Start the app
+### Required Software
+- **Node.js** (LTS version, e.g., `v20.x`)
+- **npm** or **yarn** package manager
+- **Expo CLI**
+  ```bash
+  npm install -g @expo/cli
+  ```
+- **CocoaPods** (for iOS native modules)
+  ```bash
+  sudo gem install cocoapods
+  ```
+- **Xcode** (latest from the App Store)
+- **Command Line Tools**
+  ```bash
+  xcode-select --install
+  ```
 
-   ```bash
-   npx expo start
-   ```
+### Apple Developer Account
+- Free Apple ID (works for testing)
+- Paid Apple Developer account (optional, for distribution)
 
-In the output, you'll find options to open the app in a
+## 🛠️ VSCode Setup
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Recommended Extensions
+- **ES7+ React/Redux/React-Native snippets** (by dsznajder)
+- **Prettier - Code formatter**
+- **React Native Tools** (by Microsoft)
+- **Expo Tools**
+- **TypeScript React (tsx) snippets**
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+### Settings Configuration
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "typescript.preferences.importModuleSpecifier": "relative"
+}
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 📲 iOS Device Setup
 
-## Learn more
+> ⚠️ **Critical**: BLE does **not** work in the iOS Simulator — you must use a real iPhone.
 
-To learn more about developing your project with Expo, look at the following resources:
+### Apple Developer Configuration
+1. Sign into [Apple Developer](https://developer.apple.com) with your Apple ID
+2. In Xcode, set the team to your **Personal Team** (free Apple ID works)
+3. Connect your iPhone via USB cable
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Device Trust Setup
+1. On your iPhone, go to:
+   - **Settings → General → VPN & Device Management**
+2. Trust the developer certificate for your Apple ID
+3. Confirm trust when prompted
 
-## Join the community
+> 👉 **Note**: Free Apple IDs require re-signing every 7 days.
 
-Join our community of developers creating universal apps.
+## 🚀 Getting Started
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 1. Clone and Install
+```bash
+git clone https://github.com/your-org/my-ble-app.git
+cd my-ble-app
+npm install
+```
+
+### 2. Install iOS Dependencies
+```bash
+cd ios
+pod install
+cd ..
+```
+
+### 3. Configure Bundle Identifier
+Edit `app.json` or `app.config.js`:
+```json
+{
+  "expo": {
+    "ios": {
+      "bundleIdentifier": "com.yourname.bleapp2025"
+    }
+  }
+}
+```
+
+### 4. Build and Run on Device
+```bash
+# Clean build (recommended for first run)
+npx expo prebuild --clean
+
+# Install on connected iPhone
+npx expo run:ios --device
+```
+
+### 5. Start Development Server
+```bash
+# For ongoing development
+npx expo start --dev-client
+```
+
+## 🔧 Development Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start Expo development server |
+| `npm run ios` | Run on iOS device |
+| `npx expo prebuild --clean` | Clean rebuild native code |
+| `npx expo install --fix` | Fix package compatibility |
+| `cd ios && pod install` | Update iOS dependencies |
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+#### "Unable to Install" Error
+```bash
+# Clean everything and rebuild
+rm -rf ios/
+npx expo prebuild --clean
+npx expo run:ios --device
+```
+
+#### Provisioning Profile Errors
+1. Open Xcode: `open ios/mybleapp.xcworkspace`
+2. Select project → Target → **Signing & Capabilities**
+3. Uncheck **"Automatically manage signing"**
+4. Check **"Automatically manage signing"** again
+5. Ensure your Apple ID is selected under **Team**
+
+#### BLE Permissions
+Ensure your `app.json` includes:
+```json
+{
+  "expo": {
+    "ios": {
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth to connect to smart swim goggles.",
+        "NSBluetoothPeripheralUsageDescription": "This app uses Bluetooth to connect to smart swim goggles."
+      }
+    }
+  }
+}
+```
+
+### Clean Reset (Nuclear Option)
+```bash
+# Clear all caches and rebuild
+rm -rf node_modules/
+rm -rf ios/
+rm package-lock.json
+npm install
+npx expo prebuild --clean
+npx expo run:ios --device
+```
+
+## 🏗️ Project Structure
+
+```
+swim-goggles-app/
+├── src/
+│   ├── components/          # Reusable UI components
+│   ├── screens/            # Screen components
+│   ├── services/           # BLE service logic
+│   ├── hooks/              # Custom React hooks
+│   └── utils/              # Helper functions
+├── assets/                 # Images, fonts, etc.
+├── ios/                    # Native iOS code (auto-generated)
+├── docs/                   # Project documentation
+├── app.json               # Expo configuration
+└── package.json           # Dependencies
+```
+
+## 📱 BLE Implementation
+
+### Basic BLE Scanner
+```javascript
+import * as Bluetooth from 'expo-bluetooth';
+
+const scanForDevices = async () => {
+  try {
+    const { status } = await Bluetooth.requestPermissionsAsync();
+    if (status !== 'granted') return;
+    
+    const devices = await Bluetooth.startDeviceScanAsync({
+      serviceUUIDs: ['your-swim-goggles-service-uuid']
+    });
+    
+    return devices;
+  } catch (error) {
+    console.error('BLE scan error:', error);
+  }
+};
+```
+
+## 🔄 Development Workflow
+
+1. **Code changes**: Edit files in your IDE
+2. **Hot reload**: Changes appear automatically on device
+3. **Native changes**: Rebuild with `npx expo run:ios --device`
+4. **Weekly re-sign**: Free accounts need weekly reinstallation
+
+## 📝 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/awesome-feature`
+3. Commit changes: `git commit -m 'Add awesome feature'`
+4. Push to branch: `git push origin feature/awesome-feature`
+5. Open a Pull Request
+
+## 📞 Support
+
+- **Issues**: Create an issue on GitHub
+- **Documentation**: Check the `docs/` folder
+- **BLE Troubleshooting**: See troubleshooting section above
+
+---
+
+**Happy Swimming!** 🏊‍♂️💙
