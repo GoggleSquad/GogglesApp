@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import { Device } from "react-native-ble-plx";
-import { manager, requestPermissions } from "/Users/badhri/SeniorDesign/SampleBLE/app/BLE/ble_setup";
-import { scannerStyles as styles } from "/Users/badhri/SeniorDesign/SampleBLE/app/styles/scanner_styles";
+import { manager, requestPermissions } from "../BLE/ble_setup";
+import { scannerStyles as styles } from "../styles/scanner_styles";
 
 const ScannerScreen: React.FC = () => {
   const [devices, setDevices] = useState<Device[]>([]);

@@ -8,7 +8,7 @@ import {
     TextInput,
     View,
 } from "react-native";
-import { profileStyles } from "/Users/badhri/SeniorDesign/SampleBLE/app/styles/profile_styles";
+import { profileStyles } from "../styles/profile_styles";
 
 const ProfileScreen: React.FC = () => {
   const [name, setName] = useState("");

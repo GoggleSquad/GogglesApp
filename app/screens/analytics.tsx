@@ -1,7 +1,7 @@
 // screens/AnalyticsScreen.tsx
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
-import { analyticsStyles } from "/Users/badhri/SeniorDesign/SampleBLE/app/styles/analytics_styles";
+import { analyticsStyles } from "../styles/analytics_styles";
 
 const AnalyticsScreen: React.FC = () => {
   const swimData = Array.from({ length: 50 }, (_, i) => ({
