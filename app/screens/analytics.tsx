@@ -1,16 +1,54 @@
 // screens/AnalyticsScreen.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { analyticsStyles } from "../styles/analytics_styles";
 
+interface SwimData {
+  id: string;
+  date: string;
+  duration: string;
+  distance: string;
+  avgSpeed: string;
+}
+
 const AnalyticsScreen: React.FC = () => {
-  const swimData = Array.from({ length: 50 }, (_, i) => ({
-    id: i.toString(),
-    date: `2025-09-${(i % 30) + 1}`,
-    duration: `${30 + (i % 20)} mins`,
-    distance: `${1000 + i * 10} m`,
-    avgSpeed: `${1.2 + (i % 5) * 0.1} m/s`,
-  }));
+  const [swimData, setSwimData] = useState<SwimData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // 🔹 Placeholder: Fetch data once backend is ready
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // This will be replaced by your SQLite fetch later
+        // For now, it does nothing — just simulates loading real data
+        const data: SwimData[] = []; // Replace with actual query results
+        setSwimData(data);
+      } catch (error) {
+        console.error("Error loading swim data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (swimData.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={analyticsStyles.header}>Swim Analytics</Text>
+        <Text>No swim data available yet.</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={{ padding: 20 }}>
